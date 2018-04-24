@@ -29,14 +29,19 @@ public class StaircaseTest {
   }
 
   @Test
-  public void shouldHaveSteps() throws Exception {
-    // given
-    final String staircase = staircase(5);
+  public void shouldHaveMoreBricksToTheBottom() throws Exception {
+    assertEquals("#", brickAt(staircase(5), 1));
+    assertEquals("##", brickAt(staircase(5), 2));
+    assertEquals("###", brickAt(staircase(5), 3));
+  }
 
-    // expect
-    assertEquals("#", brickAt(staircase, 1));
-    assertEquals("##", brickAt(staircase, 2));
-    assertEquals("###", brickAt(staircase, 3));
+  @Test
+  public void shouldFormSteps() throws Exception {
+    assertEquals(" #", stepAt(staircase(2), 1));
+    assertEquals("##", stepAt(staircase(2), 2));
+    assertEquals("  #", stepAt(staircase(3), 1));
+    assertEquals(" ##", stepAt(staircase(3), 2));
+    assertEquals("###", stepAt(staircase(3), 3));
   }
 
   private int heightOf(String staircase) {
@@ -48,6 +53,10 @@ public class StaircaseTest {
   }
 
   private String brickAt(String staircase, int stepNo) {
-    return staircase.split("\\r?\\n")[stepNo - 1].trim();
+    return stepAt(staircase, stepNo).trim();
+  }
+
+  private String stepAt(String staircase, int stepNo) {
+    return staircase.split("\\r?\\n")[stepNo - 1];
   }
 }

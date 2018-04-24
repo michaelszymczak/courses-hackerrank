@@ -1,13 +1,10 @@
 package com.michaelszymczak.courses.hr.intro.intro;
 
-import java.io.*;
-import java.math.*;
-import java.text.*;
 import java.util.*;
-import java.util.regex.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.IntStream.rangeClosed;
+import static java.util.stream.Stream.generate;
 
 public class StaircaseSolution {
 
@@ -26,21 +23,29 @@ public class StaircaseSolution {
     staircase(n);
   }
 
-  public static class Staircase {
+  static class Staircase {
 
-    private final int n;
+    private final int height;
 
-    public Staircase(int n) {
-      this.n = n;
-      if (n < 0)
+    public Staircase(int height) {
+      this.height = height;
+      if (height < 0)
         throw new IllegalArgumentException();
     }
 
     @Override
     public String toString() {
-      return IntStream.rangeClosed(1, n)
-              .mapToObj(value -> Stream.generate(() -> "#").limit(value).collect(Collectors.joining()))
-              .collect(Collectors.joining("\n"));
+      return rangeClosed(1, height)
+              .mapToObj(this::step)
+              .collect(joining("\n"));
+    }
+
+    private String step(int stepFromTheTop) {
+      return characters(" ", height - stepFromTheTop) + characters("#", stepFromTheTop);
+    }
+
+    private String characters(String character, int howMany) {
+      return generate(() ->  character).limit(howMany).collect(joining());
     }
   }
 }
