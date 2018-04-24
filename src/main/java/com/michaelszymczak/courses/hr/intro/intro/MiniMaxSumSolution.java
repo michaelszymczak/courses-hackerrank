@@ -1,6 +1,10 @@
 package com.michaelszymczak.courses.hr.intro.intro;
 
+import java.util.Arrays;
 import java.util.Scanner;
+
+import static java.lang.Integer.MIN_VALUE;
+import static java.util.Arrays.copyOf;
 
 public class MiniMaxSumSolution {
 
@@ -30,15 +34,38 @@ public class MiniMaxSumSolution {
 
   static class MiniMaxSum {
 
+    private final int[] arr;
+
     public MiniMaxSum(int[] arr) {
+      this.arr = copyOf(arr, arr.length);
     }
 
-    public int max() {
-      return 0;
+    public long mini() {
+      long result = 0;
+      int maxSoFar = MIN_VALUE;
+      for (int i = 0; i < arr.length; i++) {
+        if (i < arr.length - 1) {
+          result += arr[i];
+          if (maxSoFar < arr[i]) {
+            maxSoFar = arr[i];
+          }
+        } else {
+          if (maxSoFar > arr[i]) {
+            result = result - maxSoFar + arr[i];
+          }
+        }
+      }
+
+      return result;
     }
 
-    public int mini() {
-      return 0;
+    public long max() {
+      long result = 0;
+      for (int i = 0; i < arr.length - 1; i++) {
+        result += arr[i];
+      }
+
+      return result;
     }
   }
 }
