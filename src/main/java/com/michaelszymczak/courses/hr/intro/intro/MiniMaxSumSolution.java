@@ -2,8 +2,6 @@ package com.michaelszymczak.courses.hr.intro.intro;
 
 import java.util.Scanner;
 
-import static java.lang.Integer.MAX_VALUE;
-import static java.lang.Integer.MIN_VALUE;
 import static java.util.Arrays.copyOf;
 
 public class MiniMaxSumSolution {
@@ -41,41 +39,56 @@ public class MiniMaxSumSolution {
     }
 
     public long mini() {
-      long result = 0;
-      int maxSoFar = MIN_VALUE;
-      for (int i = 0; i < arr.length; i++) {
-        if (i < arr.length - 1) {
-          result += arr[i];
-          if (maxSoFar < arr[i]) {
-            maxSoFar = arr[i];
-          }
-        } else {
-          if (maxSoFar > arr[i]) {
-            result = result - maxSoFar + arr[i];
-          }
-        }
-      }
-
-      return result;
+      return sum(true);
     }
 
     public long max() {
-      long result = 0;
-      int minSoFar = MAX_VALUE;
+      return sum(false);
+    }
+
+    private long sum(boolean isMini) {
+      final State state = new State();
       for (int i = 0; i < arr.length; i++) {
-        if (i < arr.length - 1) {
-          result += arr[i];
-          if (minSoFar > arr[i]) {
-            minSoFar = arr[i];
-          }
-        } else {
-          if (minSoFar < arr[i]) {
-            result = result - minSoFar + arr[i];
-          }
-        }
+        state.add(isLastElement(i) ? state.appropriateValue(isMini, arr[i]) : arr[i]);
+        state.accept(arr[i]);
       }
 
-      return result;
+      return state.sumSoFar();
+    }
+
+    private boolean isLastElement(int i) {
+      return i == arr.length - 1;
     }
   }
+
+  private static class State {
+    private int minSoFar = Integer.MAX_VALUE;
+    private int maxSoFar = Integer.MIN_VALUE;
+    private long sumSoFar = 0;
+
+    void add(int value) {
+      sumSoFar += value;
+    }
+
+    void accept(int value) {
+      if (minSoFar > value) {
+        minSoFar = value;
+      }
+      if (maxSoFar < value) {
+        maxSoFar = value;
+      }
+    }
+
+    int appropriateValue(boolean isMini, int value) {
+      if (isMini && maxSoFar > value) return value - maxSoFar;
+      if (!isMini && minSoFar < value) return value - minSoFar;
+
+      return 0;
+    }
+
+    public long sumSoFar() {
+      return sumSoFar;
+    }
+  }
+
 }
