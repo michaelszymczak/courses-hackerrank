@@ -1,8 +1,10 @@
 package com.michaelszymczak.courses.hr.intro.intro;
 
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 import static java.util.Arrays.copyOf;
+import static java.util.Arrays.stream;
 
 public class MiniMaxSumSolution {
 
@@ -39,55 +41,15 @@ public class MiniMaxSumSolution {
     }
 
     public long mini() {
-      return sum(true);
+      return sorted().limit(4).sum();
     }
 
     public long max() {
-      return sum(false);
+      return sorted().skip(1).sum();
     }
 
-    private long sum(boolean isMini) {
-      final State state = new State();
-      for (int i = 0; i < arr.length; i++) {
-        state.add(isLastElement(i) ? state.appropriateValue(isMini, arr[i]) : arr[i]);
-        state.accept(arr[i]);
-      }
-
-      return state.sumSoFar();
-    }
-
-    private boolean isLastElement(int i) {
-      return i == arr.length - 1;
-    }
-  }
-
-  private static class State {
-    private int minSoFar = Integer.MAX_VALUE;
-    private int maxSoFar = Integer.MIN_VALUE;
-    private long sumSoFar = 0;
-
-    void add(int value) {
-      sumSoFar += value;
-    }
-
-    void accept(int value) {
-      if (minSoFar > value) {
-        minSoFar = value;
-      }
-      if (maxSoFar < value) {
-        maxSoFar = value;
-      }
-    }
-
-    int appropriateValue(boolean isMini, int value) {
-      if (isMini && maxSoFar > value) return value - maxSoFar;
-      if (!isMini && minSoFar < value) return value - minSoFar;
-
-      return 0;
-    }
-
-    public long sumSoFar() {
-      return sumSoFar;
+    private IntStream sorted() {
+      return stream(arr).sorted();
     }
   }
 
