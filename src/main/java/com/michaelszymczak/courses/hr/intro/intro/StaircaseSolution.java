@@ -5,6 +5,9 @@ import java.math.*;
 import java.text.*;
 import java.util.*;
 import java.util.regex.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class StaircaseSolution {
 
@@ -25,14 +28,19 @@ public class StaircaseSolution {
 
   public static class Staircase {
 
+    private final int n;
+
     public Staircase(int n) {
+      this.n = n;
       if (n < 0)
         throw new IllegalArgumentException();
     }
 
     @Override
     public String toString() {
-      return "";
+      return IntStream.rangeClosed(1, n)
+              .mapToObj(value -> Stream.generate(() -> "#").limit(value).collect(Collectors.joining()))
+              .collect(Collectors.joining("\n"));
     }
   }
 }
