@@ -31,4 +31,11 @@ public class MiniMaxSumTest {
     assertEquals(8, new MiniMaxSumSolution.MiniMaxSum(new int[] {2, 2, 5, 2, 2}).mini());
     assertEquals(-4, new MiniMaxSumSolution.MiniMaxSum(new int[] {-1, -1, -1, -1, 0}).mini());
   }
+
+  @Test
+  public void shouldOmitTheLowestNumberWhenCalculatingMax() throws Exception {
+    assertEquals(8, new MiniMaxSumSolution.MiniMaxSum(new int[] {-5, 2, 2, 2, 2}).max());
+    assertEquals(8, new MiniMaxSumSolution.MiniMaxSum(new int[] {2, 2, -5, 2, 2}).max());
+    assertEquals(-4, new MiniMaxSumSolution.MiniMaxSum(new int[] {-1, -1, -1, -1, -2}).max());
+  }
 }

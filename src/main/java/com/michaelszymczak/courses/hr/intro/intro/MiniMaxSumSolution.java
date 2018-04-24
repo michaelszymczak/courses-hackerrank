@@ -1,8 +1,8 @@
 package com.michaelszymczak.courses.hr.intro.intro;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
+import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.MIN_VALUE;
 import static java.util.Arrays.copyOf;
 
@@ -61,8 +61,18 @@ public class MiniMaxSumSolution {
 
     public long max() {
       long result = 0;
-      for (int i = 0; i < arr.length - 1; i++) {
-        result += arr[i];
+      int minSoFar = MAX_VALUE;
+      for (int i = 0; i < arr.length; i++) {
+        if (i < arr.length - 1) {
+          result += arr[i];
+          if (minSoFar > arr[i]) {
+            minSoFar = arr[i];
+          }
+        } else {
+          if (minSoFar < arr[i]) {
+            result = result - minSoFar + arr[i];
+          }
+        }
       }
 
       return result;
